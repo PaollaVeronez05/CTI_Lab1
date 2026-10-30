@@ -1,0 +1,22 @@
+{% extends "base.html" %}{% block content %}
+<h1>{{ c.title }}</h1>
+<p><span class="tag {{ c.side|lower|replace(' ', '') }}">{{ c.side }}</span> {{ c.category }} · {{ c.points }} pts</p>
+<div class="card pre">{{ c.description }}</div>
+{% if c.url %}<p>Alvo: <code>{{ c.url }}</code></p>{% endif %}
+{% if c.image %}<div class="card">
+<h3>Ambiente do desafio</h3>
+{% if inst %}
+<p>Alvo: <a href="http://127.0.0.1:{{ inst.port }}" target="_blank"><code>http://127.0.0.1:{{ inst.port }}</code></a></p>
+<p>Expira em <b>{{ ((inst.expires_at - now) / 60)|round(0)|int }}</b> minutos.</p>
+<form method="post" action="/challenge/{{ c.id }}/stop"><button class="danger">Encerrar ambiente</button></form>
+{% else %}
+<p>Cada participante recebe o seu próprio ambiente, isolado e com uma flag única.</p>
+<form method="post" action="/challenge/{{ c.id }}/start"><button>Iniciar ambiente</button></form>
+<p class="muted">Na primeira vez pode demorar alguns minutos (o Docker constrói a imagem).</p>
+{% endif %}</div>{% endif %}
+{% if c.hint %}<details><summary>Dica</summary>{{ c.hint }}</details>{% endif %}
+{% if solved %}<p class="ok">✔ Você já resolveu este desafio.</p>
+{% else %}<form method="post" class="card narrow">
+<label>Flag<input name="flag" placeholder="CTF{...}" required autocomplete="off"></label>
+<button>Enviar</button></form>{% endif %}
+<p><a href="/challenges">← Voltar</a></p>{% endblock %}

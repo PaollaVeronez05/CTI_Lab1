@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}
+<h1>Desafios</h1>
+<div class="grid">
+{% for c in items %}
+<a class="card {{ 'done' if c.id in solved }}" href="/challenge/{{ c.id }}">
+<span class="tag {{ c.side|lower|replace(' ', '') }}">{{ c.side }}</span>
+<h3>{{ c.title }}</h3><p>{{ c.category }} · {{ c.points }} pts</p>
+{% if c.id in solved %}<b>✔ Concluído</b>{% endif %}</a>
+{% endfor %}</div>{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}
+<h1>Ambientes ativos</h1>
+<p>{{ rows|length }} de {{ max }} ambientes em uso.</p>
+<table><tr><th>Participante</th><th>Desafio</th><th>Porta</th><th>Expira em</th><th></th></tr>
+{% for r in rows %}<tr><td>{{ r.uname }}</td><td>{{ r.title }}</td><td>{{ r.port }}</td><td>{{ ((r.expires_at - now) / 60)|round(0)|int }} min</td>
+<td><form method="post" action="/ambientes/{{ r.id }}/encerrar"><button class="danger">Encerrar</button></form></td></tr>
+{% else %}<tr><td colspan="5">Nenhum ambiente ativo.</td></tr>{% endfor %}</table>
+{% if rows %}<form method="post" action="/ambientes/encerrar-todos"><button class="danger">Encerrar todos</button></form>{% endif %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% block content %}
+<h1>{{ u.name }}</h1><p>Equipe: {{ u.team }}</p>
+{% if s %}<p>{{ s.solved }} desafios · {{ s.points }} pts · {{ s.attempts }} tentativas · tempo médio {{ s.avg_min if s.avg_min is not none else '—' }} min</p>{% endif %}
+<h2>Avaliação do mentor (1 a 5)</h2>
+<form method="post" class="card narrow">
+{% for k, label in [('logica','Raciocínio lógico'),('comunicacao','Comunicação'),('colaboracao','Colaboração'),('decisao','Tomada de decisão')] %}
+<label>{{ label }}<input type="number" name="{{ k }}" min="1" max="5" value="3"></label>{% endfor %}
+<label>Observações<textarea name="notes" rows="3"></textarea></label>
+<button>Salvar avaliação</button></form>
+{% for e in evals %}<div class="card">Lógica {{ e.logica }} · Comunicação {{ e.comunicacao }} · Colaboração {{ e.colaboracao }} · Decisão {{ e.decisao }}<br>{{ e.notes }}</div>{% endfor %}
+<h2>Histórico de tentativas</h2>
+<table><tr><th>Desafio</th><th>Resultado</th><th>Quando</th></tr>
+{% for a in attempts %}<tr><td>{{ a.title }}</td><td>{{ '✔ Correta' if a.correct else '✘ Errada' }}</td><td>{{ fmt(a.created_at) }}</td></tr>
+{% else %}<tr><td colspan="3">Sem tentativas.</td></tr>{% endfor %}</table>
+<p><a href="/dashboard">← Dashboard</a></p>{% endblock %}

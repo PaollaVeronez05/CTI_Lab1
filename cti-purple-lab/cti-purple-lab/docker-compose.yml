@@ -1,0 +1,6 @@
+services:
+  web01:
+    build: ./challenges/web-01
+    ports:
+      - "127.0.0.1:5001:5000"   # acessível só na sua máquina
+    restart: "no"

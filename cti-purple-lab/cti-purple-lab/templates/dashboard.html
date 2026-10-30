@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block content %}
+<h1>Dashboard dos mentores</h1>
+<h2>Equipes</h2>
+<table><tr><th>Equipe</th><th>Membros</th><th>Desafios resolvidos</th><th>Pontos</th><th>Tentativas</th></tr>
+{% for t in teams %}<tr><td>{{ t.team }}</td><td>{{ t.members }}</td><td>{{ t.solved }}</td><td>{{ t.points }}</td><td>{{ t.attempts }}</td></tr>
+{% else %}<tr><td colspan="5">Nenhuma equipe ainda.</td></tr>{% endfor %}</table>
+<h2>Participantes</h2>
+<table><tr><th>Nome</th><th>Equipe</th><th>Resolvidos</th><th>Pontos</th><th>Tentativas</th><th>Tempo médio (min)</th><th>Nota dos mentores</th><th></th></tr>
+{% for r in rows %}<tr><td>{{ r.name }}</td><td>{{ r.team }}</td><td>{{ r.solved }}/{{ total }}</td><td>{{ r.points }}</td><td>{{ r.attempts }}</td>
+<td>{{ r.avg_min if r.avg_min is not none else '—' }}</td><td>{{ r.rating if r.rating else '—' }}</td><td><a href="/participante/{{ r.id }}">Detalhes</a></td></tr>
+{% else %}<tr><td colspan="8">Nenhum participante ainda.</td></tr>{% endfor %}</table>{% endblock %}
